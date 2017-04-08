@@ -28,8 +28,15 @@ public class NovoRegistroServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            
             throws ServletException, IOException {
+        
+        String serie = request.getParameter("serie");
+        String local = request.getParameter("local");
+        String descricao = request.getParameter("descricao");
+        Integer estado = Integer.valueOf(request.getParameter("estado"));
+        
+        Logger.getLogger(NovoRegistroServlet.class.getName()).log(Level.INFO, "POST: " +serie+""+local+""+descricao+""+estado);
+        
         
         
         try {

@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import static jdk.nashorn.internal.runtime.Debug.id;
 
 @WebServlet(name = "EditaRegistroServlet", urlPatterns = {"/edita.html"})
 public class EditaRegistroServlet extends HttpServlet {
@@ -65,15 +66,19 @@ public class EditaRegistroServlet extends HttpServlet {
         try {
             
             Class.forName("org.apache.derby.jdbc.ClientDriver");
-            Connection conexao = DriverManager.getConnection("jdbc:derby://localhost:1527/lppo-2017-1", "usuario", "senha");
-            Statement operacao = conexao.createStatement();
-            
-            operacao.executeUpdate("UPDATE equipamento SET serie='"
-                    + equipamento.getSerie() + "', local='"
-                    + equipamento.getLocal() + "', descricao='"
-                    + equipamento.getDescricao() + "', estado="
-                    + equipamento.getEstado() + " WHERE id=" 
-                    + equipamento.getId());
+            Connection conexao = DriverManager.getConnection("jdbc:derby://localhost:1527//lpto-2017-1", "usuario", "senha");
+             
+             Statement operacao = conexao.createStatement();
+             String id = null;
+             ResultSet resultado = operacao.executeQuery("SELECT * FROM equipamento WHERE id=" +id);
+                if(resultado.next()){
+                    equipamento.setId(resultado.getLong("id"));
+                    equipamento.setSerie(resultado.getString("serie"));
+                    equipamento.setLocal(resultado.getString("local"));
+                    equipamento.setDescricao(resultado.getString("descricao"));                   
+                    equipamento.setEstado(resultado.getInt("estado"));
+                   
+       }            
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ListaRegistrosServlet.class.getName()).log(Level.SEVERE, null, ex);

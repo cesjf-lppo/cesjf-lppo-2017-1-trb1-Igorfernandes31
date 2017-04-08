@@ -35,11 +35,16 @@ public class ListaRegistrosServlet extends HttpServlet {
             Statement operacao = conexao.createStatement();
             ResultSet resultado = operacao.executeQuery("SELECT * FROM equipamento " + filtro);
 
-            while (resultado.next()) {
-                Equipamento equipamento = new Equipamento();
-                equipamento.setId(resultado.getLong("Id"));  equipamento.setSerie(resultado.getString("serie"));equipamento.setLocal(resultado.getString("local"));
-                equipamento.setDescricao(resultado.getString("descricao"));equipamento.setEstado(resultado.getInt("estado")); equipamentos.add(equipamento);
+            while(resultado.next()){
+                Equipamento equipamentoAtual = new Equipamento();
+                equipamentoAtual.setId(resultado.getLong("id"));
+                equipamentoAtual.setSerie(resultado.getString("serie"));
+                equipamentoAtual.setLocal(resultado.getString("local"));
+                equipamentoAtual.setDescricao(resultado.getString("descricao"));
+                equipamentoAtual.setEstado(resultado.getInt("estado"));
+                equipamentos.add(equipamentoAtual);
             }
+            System.out.println(equipamentos);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ListaRegistrosServlet.class.getName()).log(Level.SEVERE, null, ex);
